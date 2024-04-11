@@ -5,7 +5,11 @@ const app = express();
 dotenv.config();
 
 app.get("/", (req, res) => {
-  res.send("chapAppApi API running successfully.");
+  res.send("chapAppApi response for /.");
+});
+
+app.get("/chats", (req, res) => {
+  res.send("chapAppApi response for /chats.");
 });
 
 const PORT = process.env.PORT || 5000;
