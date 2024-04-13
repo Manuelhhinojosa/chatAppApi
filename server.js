@@ -12,6 +12,9 @@ const userRoutes = require("./routes/userRoutes");
 // create app server
 const app = express();
 
+// config to accept json data
+app.use(express.json());
+
 // routes.
 app.get("/api", (req, res) => {
   res.send("API for chapAppApi is running succesfully");
