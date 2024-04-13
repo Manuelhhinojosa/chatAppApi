@@ -8,6 +8,8 @@ dotenv.config();
 require("./config/db");
 // router
 const userRoutes = require("./routes/userRoutes");
+// error handler functions
+const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 // create app server
 const app = express();
@@ -19,8 +21,11 @@ app.use(express.json());
 app.get("/api", (req, res) => {
   res.send("API for chapAppApi is running succesfully");
 });
-
 app.use("/api/user", userRoutes);
+
+// error handling
+app.use(notFound);
+app.use(errorHandler);
 
 // production
 const PORT = process.env.PORT || 5000;
