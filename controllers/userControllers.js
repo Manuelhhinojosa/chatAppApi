@@ -26,7 +26,7 @@ const signupUser = asyncHandler(async (req, res) => {
 
   const existingUser = await User.findOne({ email });
   if (existingUser) {
-    res.status(400);
+    res.status(410);
     throw new Error("User alredy exists");
   }
 
