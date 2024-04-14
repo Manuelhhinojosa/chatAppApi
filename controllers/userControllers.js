@@ -11,9 +11,15 @@ const generateToken = require("../config/generateToken");
 // sign up user
 
 const signupUser = asyncHandler(async (req, res) => {
-  const { name, email, password, pic } = req.body;
+  const { name, email, password } = req.body;
+  const img = req.file;
+  const pic = {
+    url: img.path,
+    filename: img.filename,
+    fileOriginalName: img.originalname,
+  };
 
-  if (!name || !email || !password) {
+  if (!name || !email || !password || !img) {
     res.status(400);
     throw new Error("Please enter all the fields");
   }
@@ -36,7 +42,7 @@ const signupUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      pic: user.pic,
+      image: user.pic,
       token: generateToken(user._id),
     });
   } else {

@@ -1,5 +1,7 @@
 // setting up express app dependency
 const express = require("express");
+// ???
+const cors = require("cors");
 // for sensitive vars
 const dotenv = require("dotenv");
 // configuration for sensitive vars
@@ -13,6 +15,9 @@ const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 // create app server
 const app = express();
+
+//  cors
+app.use(cors());
 
 // config to accept json data
 app.use(express.json());
