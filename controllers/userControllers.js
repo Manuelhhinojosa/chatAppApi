@@ -1,6 +1,7 @@
 // model
 const User = require("../models/userModel");
 const asyncHandler = require("express-async-handler");
+const bcrypt = require("bcryptjs");
 
 // token generator
 const generateToken = require("../config/generateToken");
@@ -57,17 +58,15 @@ const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
 
-  if (user && (await user.matchPassword(password))) {
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      pic: user.pic,
-      token: generateToken(user._id),
-    });
+  if (!user) {
+    res.status(500).json("username || password incorrect");
   } else {
-    res.json(401);
-    throw new Error("Invalid email or password");
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      res.status(500).json("username || password incorrect");
+    } else {
+      res.status(200).json(user);
+    }
   }
 });
 
